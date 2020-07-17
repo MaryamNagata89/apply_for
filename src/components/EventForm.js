@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { CREATE_EVENT, DELETE_ALL_EVENTS } from '../actions';
+import AppContext from '../contexts/AppContext';
 
-const EventForm = ({ state, dispatch }) => {
+const EventForm = () => {
+  const { state, dispatch } = useContext(AppContext);
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
+
   const addEvent = (e) => {
     e.preventDefault();
 
@@ -13,6 +16,7 @@ const EventForm = ({ state, dispatch }) => {
       title,
       body,
     });
+
     setTitle('');
     setBody('');
   };
@@ -22,12 +26,11 @@ const EventForm = ({ state, dispatch }) => {
     const result = window.confirm(
       '全てのイベントを本当に削除しても良いですか？'
     );
-    if (result)
-      dispatch({
-        type: DELETE_ALL_EVENTS,
-      });
+    if (result) dispatch({ type: DELETE_ALL_EVENTS });
   };
+
   const unCreatable = title === '' || body === '';
+
   return (
     <>
       <h4>イベント作成フォーム</h4>
@@ -70,4 +73,5 @@ const EventForm = ({ state, dispatch }) => {
     </>
   );
 };
+
 export default EventForm;
